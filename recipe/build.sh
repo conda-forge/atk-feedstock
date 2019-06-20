@@ -1,5 +1,7 @@
 #! /bin/bash
 
+set -ex
+
 if [[ $(uname) == Darwin ]]; then
   export CC=clang
   export CXX=clang++
@@ -13,14 +15,10 @@ elif [ "$(uname)" == "Linux" ] ; then
   export LDFLAGS="-L${PREFIX}/lib $LDFLAGS"
 fi
 
-./configure --prefix=$PREFIX \
-            --disable-gtk-doc \
-            --disable-static
-
-make -j$CPU_COUNT
-make check
-make install -j$CPU_COUNT
-
+meson builddir --prefix=$PREFIX --libdir=$PREFIX/lib
+meson configure -D enable_docs=false builddir
+ninja -v -C builddir
+ninja -C builddir install
 
 cd $PREFIX
 find . -type f -name "*.la" -exec rm -rf '{}' \; -print
