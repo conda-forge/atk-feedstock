@@ -12,6 +12,7 @@ source:
 
 build:
   number: 1
+  skip: true  # [win and vc<14]
   run_exports:
     # Good stability in the 2.x series:
     # https://abi-laboratory.pro/index.php?view=timeline&l=atk
