@@ -11,8 +11,7 @@ source:
   sha256: cb41feda7fe4ef0daa024471438ea0219592baf7c291347e5a858bb64e4091cc
 
 build:
-  number: 0
-  skip: True  # [win]
+  number: 1
   run_exports:
     # Good stability in the 2.x series:
     # https://abi-laboratory.pro/index.php?view=timeline&l=atk
@@ -20,11 +19,11 @@ build:
 
 requirements:
   build:
-    - make
+    - make  # [not win]
     - meson
     - ninja
     - python >=3.6
-    - perl
+    - perl  # [not win]
     - pkg-config
     - {{ compiler('c') }}
   host:
