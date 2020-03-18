@@ -20,8 +20,8 @@ if errorlevel 1 exit 1
 %BUILD_PREFIX%\python.exe %BUILD_PREFIX%\Scripts\meson configure builddir
 if errorlevel 1 exit 1
 
-ninja -v -C builddir -j ${CPU_COUNT}
+ninja -v -C builddir -j %CPU_COUNT%
 if errorlevel 1 exit 1
 
-ninja -C builddir install -j ${CPU_COUNT}
+ninja -C builddir install -j %CPU_COUNT%
 if errorlevel 1 exit 1
