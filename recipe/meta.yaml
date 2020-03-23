@@ -41,7 +41,7 @@ test:
 
 about:
   home: http://www.gtk.org/
-  license: LGPL-2.0
+  license: LGPL-2.0-or-later
   license_file: COPYING
   summary: 'Accessibility Toolkit.'
 
