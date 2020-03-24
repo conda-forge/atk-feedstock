@@ -11,7 +11,7 @@ source:
   sha256: cb41feda7fe4ef0daa024471438ea0219592baf7c291347e5a858bb64e4091cc
 
 build:
-  number: 1
+  number: 2
   skip: true  # [win and vc<14]
   run_exports:
     # Good stability in the 2.x series:
@@ -35,7 +35,19 @@ requirements:
     - gobject-introspection 1.*
 
 test:
+  requires:
+    - pkg-config
   commands:
+    # verify that libs get installed and can be located through pkg-config
+    {% set pc = "atk" %}
+    {% set lib = "atk-1.0" %}
+    - test -f $PREFIX/lib/lib{{ lib }}${SHLIB_EXT}  # [unix]
+    - test -f `pkg-config --variable=libdir --dont-define-prefix {{ pc }}`/lib{{ lib }}${SHLIB_EXT}  # [unix]
+    - if not exist %PREFIX%\\Library\\bin\\{{ lib }}-0.dll exit 1  # [win]
+    - for /f "usebackq tokens=*" %%a in (`pkg-config --variable=exec_prefix --dont-define-prefix {{ pc }}`) do if not exist "%%a/bin/{{ lib }}-0.dll" exit 1  # [win]
+    - if not exist %PREFIX%\\Library\\lib\\{{ lib }}.lib exit 1  # [win]
+    - for /f "usebackq tokens=*" %%a in (`pkg-config --variable=libdir --dont-define-prefix {{ pc }}`) do if not exist "%%a/{{ lib }}.lib" exit 1  # [win]
+
     - conda inspect linkages -p $PREFIX $PKG_NAME  # [not win]
     - conda inspect objects -p $PREFIX $PKG_NAME  # [osx]
 
