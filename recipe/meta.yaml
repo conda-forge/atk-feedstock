@@ -60,6 +60,9 @@ outputs:
     requirements:
       run:
         - atk-{{ abi_version }} {{ version }}
+    test:
+      commands:
+       - test -f $PREFIX/lib/libatk-{{ abi_version }}${SHLIB_EXT}  # [unix]
 
 about:
   home: http://www.gtk.org/
