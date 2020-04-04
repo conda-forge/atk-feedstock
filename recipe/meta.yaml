@@ -1,6 +1,7 @@
 {% set name = "atk" %}
-{% set major_minor = "2.32" %}
-{% set version = major_minor + ".0" %}
+{% set version = "2.36.0" %}
+{% set major_minor = ".".join(version.split(".")[:2]) %}
+{% set abi_version = "1.0" %}
 
 package:
   name: {{ name }}
@@ -8,48 +9,57 @@ package:
 
 source:
   url: http://ftp.gnome.org/pub/gnome/sources/{{ name }}/{{ major_minor }}/{{ name }}-{{ version }}.tar.xz
-  sha256: cb41feda7fe4ef0daa024471438ea0219592baf7c291347e5a858bb64e4091cc
+  sha256: fb76247e369402be23f1f5c65d38a9639c1164d934e40f6a9cf3c9e96b652788
 
 build:
-  number: 2
+  number: 0
   skip: true  # [win and vc<14]
   run_exports:
-    # Good stability in the 2.x series:
-    # https://abi-laboratory.pro/index.php?view=timeline&l=atk
-    - {{ pin_subpackage("atk", max_pin="x") }}
+    - atk-{{ abi_version }} >={{ version }}
 
-requirements:
-  build:
-    - make  # [not win]
-    - meson
-    - ninja
-    - python >=3.6
-    - perl  # [not win]
-    - pkg-config
-    - {{ compiler('c') }}
-  host:
-    - glib
-    - gobject-introspection 1.*
-  run:
-    - glib
-    - gobject-introspection 1.*
+outputs:
+  - name: atk-{{ abi_version }}
+    script: build_atk.sh  # [unix]
+    script: bld_atk.bat   # [win]
+    build:
+      run_exports:
+        - atk-{{ abi_version }} >={{ version }}
+    requirements:
+      build:
+        - make  # [not win]
+        - meson
+        - ninja
+        - python >=3.6
+        - perl  # [not win]
+        - pkg-config
+        - {{ compiler('c') }}
+      host:
+        - glib
+        - gobject-introspection 1.*
+      run:
+        - glib
+        - gobject-introspection 1.*
+      run_constrained:
+        - atk-{{ abi_version }} {{ version }}
 
-test:
-  requires:
-    - pkg-config
-  commands:
-    # verify that libs get installed and can be located through pkg-config
-    {% set pc = "atk" %}
-    {% set lib = "atk-1.0" %}
-    - test -f $PREFIX/lib/lib{{ lib }}${SHLIB_EXT}  # [unix]
-    - test -f `pkg-config --variable=libdir --dont-define-prefix {{ pc }}`/lib{{ lib }}${SHLIB_EXT}  # [unix]
-    - if not exist %PREFIX%\\Library\\bin\\{{ lib }}-0.dll exit 1  # [win]
-    - for /f "usebackq tokens=*" %%a in (`pkg-config --variable=exec_prefix --dont-define-prefix {{ pc }}`) do if not exist "%%a/bin/{{ lib }}-0.dll" exit 1  # [win]
-    - if not exist %PREFIX%\\Library\\lib\\{{ lib }}.lib exit 1  # [win]
-    - for /f "usebackq tokens=*" %%a in (`pkg-config --variable=libdir --dont-define-prefix {{ pc }}`) do if not exist "%%a/{{ lib }}.lib" exit 1  # [win]
+    test:
+      requires:
+        - pkg-config
+      commands:
+        # verify that libs get installed and can be located through pkg-config
+        {% set pc = "atk" %}
+        {% set lib = "atk-" + abi_version  %}
+        - test -f $PREFIX/lib/lib{{ lib }}${SHLIB_EXT}  # [unix]
+        - test -f `pkg-config --variable=libdir --dont-define-prefix {{ pc }}`/lib{{ lib }}${SHLIB_EXT}  # [unix]
+        - if not exist %PREFIX%\\Library\\bin\\{{ lib }}-0.dll exit 1  # [win]
+        - for /f "usebackq tokens=*" %%a in (`pkg-config --variable=exec_prefix --dont-define-prefix {{ pc }}`) do if not exist "%%a/bin/{{ lib }}-0.dll" exit 1  # [win]
+        - if not exist %PREFIX%\\Library\\lib\\{{ lib }}.lib exit 1  # [win]
+        - for /f "usebackq tokens=*" %%a in (`pkg-config --variable=libdir --dont-define-prefix {{ pc }}`) do if not exist "%%a/{{ lib }}.lib" exit 1  # [win]
 
-    - conda inspect linkages -p $PREFIX $PKG_NAME  # [not win]
-    - conda inspect objects -p $PREFIX $PKG_NAME  # [osx]
+  - name: atk
+    requirements:
+      run:
+        - atk-{{ abi_version }} {{ version }}
 
 about:
   home: http://www.gtk.org/
@@ -61,3 +71,4 @@ extra:
   recipe-maintainers:
     - pkgw
     - ocefpaf
+    - isuruf
