@@ -1,6 +1,9 @@
 setlocal EnableDelayedExpansion
 @echo on
 
+set "CXXFLAGS=%CXXFLAGS:-GL%"
+set "CFLAGS=%CFLAGS:-GL%"
+
 :: set pkg-config path so that host deps can be found
 :: (set as env var so it's used by both meson and during build with g-ir-scanner)
 set "PKG_CONFIG_PATH=%LIBRARY_LIB%\pkgconfig;%LIBRARY_PREFIX%\share\pkgconfig"
