@@ -31,7 +31,6 @@ outputs:
         - meson=0.53.2
         - ninja
         - python >=3.6
-        - perl  # [not win]
         - pkg-config
         - {{ compiler('c') }}
       host:
