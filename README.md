@@ -5,7 +5,7 @@ Home: http://www.gtk.org/
 
 Package license: LGPL-2.0-or-later
 
-Feedstock license: BSD 3-Clause
+Feedstock license: BSD-3-Clause
 
 Summary: Accessibility Toolkit.
 
@@ -77,6 +77,7 @@ Current release info
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-atk-green.svg)](https://anaconda.org/conda-forge/atk) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/atk.svg)](https://anaconda.org/conda-forge/atk) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/atk.svg)](https://anaconda.org/conda-forge/atk) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/atk.svg)](https://anaconda.org/conda-forge/atk) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-atk--1.0-green.svg)](https://anaconda.org/conda-forge/atk-1.0) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/atk-1.0.svg)](https://anaconda.org/conda-forge/atk-1.0) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/atk-1.0.svg)](https://anaconda.org/conda-forge/atk-1.0) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/atk-1.0.svg)](https://anaconda.org/conda-forge/atk-1.0) |
 
 Installing atk
 ==============
@@ -87,10 +88,10 @@ Installing `atk` from the `conda-forge` channel can be achieved by adding `conda
 conda config --add channels conda-forge
 ```
 
-Once the `conda-forge` channel has been enabled, `atk` can be installed with:
+Once the `conda-forge` channel has been enabled, `atk, atk-1.0` can be installed with:
 
 ```
-conda install atk
+conda install atk atk-1.0
 ```
 
 It is possible to list all of the versions of `atk` available on your platform with:
@@ -163,6 +164,8 @@ In order to produce a uniquely identifiable distribution:
 Feedstock Maintainers
 =====================
 
+* [@isuruf](https://github.com/isuruf/)
 * [@ocefpaf](https://github.com/ocefpaf/)
 * [@pkgw](https://github.com/pkgw/)
+* [@tschoonj](https://github.com/tschoonj/)
 
