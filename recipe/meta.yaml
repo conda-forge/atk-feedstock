@@ -12,7 +12,7 @@ source:
   sha256: fb76247e369402be23f1f5c65d38a9639c1164d934e40f6a9cf3c9e96b652788
 
 build:
-  number: 0
+  number: 1
   skip: true  # [win and vc<14]
   run_exports:
     - atk-{{ abi_version }} >={{ version }}
@@ -31,7 +31,6 @@ outputs:
         - meson=0.53.2
         - ninja
         - python >=3.6
-        - perl  # [not win]
         - pkg-config
         - {{ compiler('c') }}
       host:
@@ -76,3 +75,4 @@ extra:
     - pkgw
     - ocefpaf
     - isuruf
+    - tschoonj
