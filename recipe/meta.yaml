@@ -12,7 +12,7 @@ source:
   sha256: fb76247e369402be23f1f5c65d38a9639c1164d934e40f6a9cf3c9e96b652788
 
 build:
-  number: 1
+  number: 2
   skip: true  # [win and vc<14]
   run_exports:
     - atk-{{ abi_version }} >={{ version }}
@@ -27,8 +27,7 @@ outputs:
     requirements:
       build:
         - make  # [not win]
-        # See https://github.com/conda-forge/atk-feedstock/pull/14#issuecomment-610061908
-        - meson=0.53.2
+        - meson
         - ninja
         - python >=3.6
         - pkg-config
