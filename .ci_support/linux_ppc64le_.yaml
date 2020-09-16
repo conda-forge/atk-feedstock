@@ -10,3 +10,5 @@ docker_image:
 - condaforge/linux-anvil-ppc64le
 glib:
 - '2.58'
+target_platform:
+- linux-ppc64le

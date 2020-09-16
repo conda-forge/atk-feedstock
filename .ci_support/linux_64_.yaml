@@ -10,3 +10,5 @@ docker_image:
 - condaforge/linux-anvil-comp7
 glib:
 - '2.58'
+target_platform:
+- linux-64

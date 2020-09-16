@@ -3,7 +3,7 @@ BUILD:
 c_compiler:
 - gcc
 c_compiler_version:
-- '7'
+- '7.5'
 cdt_arch:
 - aarch64
 cdt_name:
@@ -16,3 +16,5 @@ docker_image:
 - condaforge/linux-anvil-aarch64
 glib:
 - '2.58'
+target_platform:
+- linux-aarch64
