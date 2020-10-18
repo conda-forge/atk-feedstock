@@ -5,11 +5,9 @@ Home: http://www.gtk.org/
 
 Package license: LGPL-2.0-or-later
 
-Feedstock license: BSD-3-Clause
+Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/atk-feedstock/blob/master/LICENSE.txt)
 
 Summary: Accessibility Toolkit.
-
-
 
 Current build status
 ====================
