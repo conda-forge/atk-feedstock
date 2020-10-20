@@ -9,7 +9,7 @@ channel_sources:
 channel_targets:
 - conda-forge main
 glib:
-- '2.58'
+- 2.64.6
 macos_machine:
 - x86_64-apple-darwin13.4.0
 target_platform:
