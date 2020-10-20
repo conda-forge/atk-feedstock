@@ -33,10 +33,10 @@ outputs:
         - pkg-config
         - {{ compiler('c') }}
       host:
-        - glib ==2.66.0
+        - glib
         - gobject-introspection 1.*
       run:
-        - glib >=2.66.0
+        - glib
         - gobject-introspection 1.*
       run_constrained:
         - atk-{{ abi_version }} {{ version }}
