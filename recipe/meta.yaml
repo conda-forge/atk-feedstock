@@ -12,7 +12,7 @@ source:
   sha256: fb76247e369402be23f1f5c65d38a9639c1164d934e40f6a9cf3c9e96b652788
 
 build:
-  number: 3
+  number: 4
   skip: true  # [win and vc<14]
   run_exports:
     - atk-{{ abi_version }} >={{ version }}
@@ -26,18 +26,16 @@ outputs:
         - atk-{{ abi_version }} >={{ version }}
     requirements:
       build:
-        - make  # [not win]
         - meson
+        - gobject-introspection 1.*
         - ninja
         - python >=3.6
         - pkg-config
         - {{ compiler('c') }}
       host:
         - glib
-        - gobject-introspection 1.*
       run:
-        - glib
-        - gobject-introspection 1.*
+        - libglib
       run_constrained:
         - atk-{{ abi_version }} {{ version }}
 
