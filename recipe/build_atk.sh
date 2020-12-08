@@ -19,7 +19,7 @@ if [ "${CONDA_BUILD_CROSS_COMPILATION}" = "1" ]; then
         unset CFLAGS
         unset CPPFLAGS
 
-        meson --prefix=$BUILD_PREFIX ..
+        meson --libdir=$PREFIX/lib --prefix=$BUILD_PREFIX ..
         # This script would generate the functions.txt and dump.xml and save them
         # This is loaded in the native build. We assume that the functions exported
         # by glib are the same for the native and cross builds
@@ -40,7 +40,7 @@ if [[ "$CONDA_BUILD_CROSS_COMPILATION" != 1 ]]; then
   export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$BUILD_PREFIX/lib/pkgconfig"
 fi
 
-meson ${MESON_ARGS} builddir --prefix=$PREFIX
+meson ${MESON_ARGS:---libdir=$PREFIX/lib} builddir --prefix=$PREFIX
 meson configure -Denable_docs=false builddir
 ninja -v -C builddir
 ninja -C builddir install
