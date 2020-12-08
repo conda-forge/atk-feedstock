@@ -19,7 +19,7 @@ if [ "${CONDA_BUILD_CROSS_COMPILATION}" = "1" ]; then
         unset CFLAGS
         unset CPPFLAGS
 
-        meson --libdir=$PREFIX/lib --prefix=$BUILD_PREFIX ..
+        meson --libdir=$BUILD_PREFIX/lib --prefix=$BUILD_PREFIX ..
         # This script would generate the functions.txt and dump.xml and save them
         # This is loaded in the native build. We assume that the functions exported
         # by glib are the same for the native and cross builds
