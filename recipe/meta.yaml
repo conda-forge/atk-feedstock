@@ -32,9 +32,9 @@ outputs:
         - python >=3.6
         - pkg-config
         - {{ compiler('c') }}
+        - glib  # [build_platform != target_platform]
         # Required for the conda-forge meson cross-compilation config to work
         - {{ compiler('cxx') }}
-        - cross-python_{{ target_platform }}     # [build_platform != target_platform]
       host:
         - glib
       run:
