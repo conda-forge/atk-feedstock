@@ -6,7 +6,7 @@ set -ex
 # meson needs this to determine where the g-ir-scanner script is located
 export PKG_CONFIG_PATH_FOR_BUILD=$BUILD_PREFIX/lib/pkgconfig
 
-meson ${MESON_ARGS} builddir
+meson ${MESON_ARGS} builddir --prefix=$PREFIX
 meson ${MESON_ARGS} configure -D enable_docs=false builddir
 ninja -v -C builddir
 ninja -C builddir install
