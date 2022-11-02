@@ -41,7 +41,7 @@ if [[ "$CONDA_BUILD_CROSS_COMPILATION" != 1 ]]; then
 fi
 
 meson ${MESON_ARGS:---libdir=$PREFIX/lib} builddir --prefix=$PREFIX
-meson configure -Denable_docs=false builddir
+meson configure -Ddocs=false builddir
 ninja -v -C builddir
 ninja -C builddir install
 
