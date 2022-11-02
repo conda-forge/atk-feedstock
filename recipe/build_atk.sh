@@ -31,17 +31,18 @@ if [ "${CONDA_BUILD_CROSS_COMPILATION}" = "1" ]; then
     export GI_CROSS_LAUNCHER=$BUILD_PREFIX/libexec/gi-cross-launcher-load.sh
 fi
 
-# necessary to ensure the gobject-introspection-1.0 pkg-config file gets found
-# meson needs this to determine where the g-ir-scanner script is located
-export PKG_CONFIG="$BUILD_PREFIX/bin/pkg-config"
-export PKG_CONFIG_PATH_FOR_BUILD="$BUILD_PREFIX/lib/pkgconfig"
-export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$PREFIX/lib/pkgconfig"
-if [[ "$CONDA_BUILD_CROSS_COMPILATION" != 1 ]]; then
-  export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$BUILD_PREFIX/lib/pkgconfig"
-fi
+# get meson to find pkg-config when cross compiling
+export PKG_CONFIG=$BUILD_PREFIX/bin/pkg-config
+
+# need to find gobject-introspection-1.0 as a "native" (build) pkg-config dep
+# meson uses PKG_CONFIG_PATH to search when not cross-compiling and
+# PKG_CONFIG_PATH_FOR_BUILD when cross-compiling,
+# so add the build prefix pkgconfig path to the appropriate variables
+export PKG_CONFIG_PATH_FOR_BUILD=$BUILD_PREFIX/lib/pkgconfig
+export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$BUILD_PREFIX/lib/pkgconfig
 
 meson ${MESON_ARGS:---libdir=$PREFIX/lib} builddir --prefix=$PREFIX
-meson configure -Denable_docs=false builddir
+meson configure -Ddocs=false builddir
 ninja -v -C builddir
 ninja -C builddir install
 
