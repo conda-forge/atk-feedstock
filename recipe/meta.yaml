@@ -13,7 +13,7 @@ source:
   sha256: ac4de2a4ef4bd5665052952fe169657e65e895c5057dffb3c2a810f6191a0c36
 
 build:
-  number: 1
+  number: 2
   skip: true  # [win and vc<14]
   run_exports:
     - atk-{{ abi_version }} >={{ version }}
