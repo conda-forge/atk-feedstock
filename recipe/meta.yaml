@@ -39,6 +39,7 @@ outputs:
         - {{ compiler('cxx') }}
       host:
         - glib
+        - libintl-devel  # [win]
       run:
         - libglib
       run_constrained:
