@@ -10,12 +10,14 @@ set "LIBRARY_PREFIX_M=%LIBRARY_PREFIX:\=/%"
 
 :: meson options
 :: (set pkg_config_path so deps in host env can be found)
+:: (link to intl.lib since glib doesn't anymore and we need it)
 set ^"MESON_OPTIONS=^
   --prefix="%LIBRARY_PREFIX_M%" ^
   --wrap-mode=nofallback ^
   --buildtype=release ^
   --backend=ninja ^
   -D docs=false ^
+  -D c_link_args=intl.dll.lib ^
  ^"
 
 :: configure build using meson
