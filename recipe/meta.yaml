@@ -1,20 +1,17 @@
-{% set pc = "atk" %}
-{% set name = "atk" %}
-{% set version = "2.38.0" %}
+{% set version = "2.56.4" %}
 {% set major_minor = ".".join(version.split(".")[:2]) %}
 {% set abi_version = "1.0" %}
 
 package:
-  name: {{ name }}
+  name: atk
   version: {{ version }}
 
 source:
-  url: http://ftp.gnome.org/pub/gnome/sources/{{ name }}/{{ major_minor }}/{{ name }}-{{ version }}.tar.xz
-  sha256: ac4de2a4ef4bd5665052952fe169657e65e895c5057dffb3c2a810f6191a0c36
+  url: https://gitlab.gnome.org/GNOME/at-spi2-core/-/archive/{{ version }}/at-spi2-core-{{ version }}.tar.gz
+  sha256: 0642c872ab8820acd0e56f2a08645597cd8c09718e94c090ceded76730d6a76a
 
 build:
-  number: 2
-  skip: true  # [win and vc<14]
+  number: 0
   run_exports:
     - atk-{{ abi_version }} >={{ version }}
 
@@ -27,19 +24,23 @@ outputs:
         - atk-{{ abi_version }} >={{ version }}
     requirements:
       build:
+        - {{ stdlib('c') }}
+        - {{ compiler('c') }}
+        # Required for the conda-forge meson cross-compilation config to work
+        - {{ compiler('cxx') }}
+        - cmake
         - meson
         - gobject-introspection 1.*
         - ninja
-        - python >=3.6
+        - python *
         - pkg-config
-        - {{ compiler('c') }}
-        - {{ stdlib('c') }}
         - glib  # [build_platform != target_platform]
-        # Required for the conda-forge meson cross-compilation config to work
-        - {{ compiler('cxx') }}
       host:
+        - dbus              # [unix]
         - glib
-        - libintl-devel  # [not linux]
+        - libintl-devel     # [not linux]
+        - libxml2-devel
+        - zlib
       run:
         - libglib
       run_constrained:
@@ -50,14 +51,13 @@ outputs:
         - pkg-config
       commands:
         # verify that libs get installed and can be located through pkg-config
-        {% set pc = "atk" %}
         {% set lib = "atk-" + abi_version  %}
         - test -f $PREFIX/lib/lib{{ lib }}${SHLIB_EXT}  # [unix]
-        - test -f `pkg-config --variable=libdir --dont-define-prefix {{ pc }}`/lib{{ lib }}${SHLIB_EXT}  # [unix]
+        - test -f `pkg-config --variable=libdir --dont-define-prefix atk`/lib{{ lib }}${SHLIB_EXT}  # [unix]
         - if not exist %PREFIX%\\Library\\bin\\{{ lib }}-0.dll exit 1  # [win]
-        - for /f "usebackq tokens=*" %%a in (`pkg-config --variable=exec_prefix --dont-define-prefix {{ pc }}`) do if not exist "%%a/bin/{{ lib }}-0.dll" exit 1  # [win]
+        - for /f "usebackq tokens=*" %%a in (`pkg-config --variable=exec_prefix --dont-define-prefix atk`) do if not exist "%%a/bin/{{ lib }}-0.dll" exit 1  # [win]
         - if not exist %PREFIX%\\Library\\lib\\{{ lib }}.lib exit 1  # [win]
-        - for /f "usebackq tokens=*" %%a in (`pkg-config --variable=libdir --dont-define-prefix {{ pc }}`) do if not exist "%%a/{{ lib }}.lib" exit 1  # [win]
+        - for /f "usebackq tokens=*" %%a in (`pkg-config --variable=libdir --dont-define-prefix atk`) do if not exist "%%a/{{ lib }}.lib" exit 1  # [win]
 
   - name: atk
     requirements:
@@ -72,6 +72,7 @@ about:
   license: LGPL-2.0-or-later
   license_file: COPYING
   summary: Accessibility Toolkit.
+  dev_url: https://gitlab.gnome.org/GNOME/at-spi2-core
 
 extra:
   recipe-maintainers:

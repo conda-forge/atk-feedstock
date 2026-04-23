@@ -9,6 +9,8 @@ Package license: LGPL-2.0-or-later
 
 Summary: Accessibility Toolkit.
 
+Development: https://gitlab.gnome.org/GNOME/at-spi2-core
+
 Current build status
 ====================
 
