@@ -17,7 +17,7 @@ meson_config_args=(
 )
 
 # Follow the pattern of https://github.com/conda-forge/gdk-pixbuf-feedstock/pull/28/
-if [ "${CONDA_BUILD_CROSS_COMPILATION}" = "1" ]; then
+if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == "1" ]]; then
     unset _CONDA_PYTHON_SYSCONFIGDATA_NAME
     (
         mkdir -p native-build
@@ -64,7 +64,7 @@ meson setup builddir \
 ninja -j ${CPU_COUNT} -C builddir -v
 ninja -j ${CPU_COUNT} -C builddir install
 
-if [[ "$CONDA_BUILD_CROSS_COMPILATION" == "1" ]]; then
+if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == "1" ]]; then
   # Install GIR/typelib files from the native build
   mkdir -p $PREFIX/lib/girepository-1.0 $PREFIX/share/gir-1.0
   cp -vap introspection/typelib/* $PREFIX/lib/girepository-1.0/
