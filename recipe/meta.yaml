@@ -13,7 +13,7 @@ source:
   sha256: ac4de2a4ef4bd5665052952fe169657e65e895c5057dffb3c2a810f6191a0c36
 
 build:
-  number: 2
+  number: 3
   skip: true  # [win and vc<14]
   run_exports:
     - atk-{{ abi_version }} >={{ version }}
@@ -28,18 +28,18 @@ outputs:
     requirements:
       build:
         - meson
-        - gobject-introspection 1.*
+        - gobject-introspection
         - ninja
         - python >=3.6
-        - pkg-config
+        - pkgconf
         - {{ compiler('c') }}
         - {{ stdlib('c') }}
         - glib  # [build_platform != target_platform]
-        # Required for the conda-forge meson cross-compilation config to work
-        - {{ compiler('cxx') }}
+        - zlib  # [build_platform != target_platform]
       host:
         - glib
         - libintl-devel  # [not linux]
+        - zlib
       run:
         - libglib
       run_constrained:
@@ -47,7 +47,8 @@ outputs:
 
     test:
       requires:
-        - pkg-config
+        - pkgconf
+        - zlib
       commands:
         # verify that libs get installed and can be located through pkg-config
         {% set pc = "atk" %}
@@ -62,7 +63,7 @@ outputs:
   - name: atk
     requirements:
       run:
-        - atk-{{ abi_version }} {{ version }}
+        - atk-{{ abi_version }} =={{ version }}
     test:
       commands:
         - test -f $PREFIX/lib/libatk-{{ abi_version }}${SHLIB_EXT}  # [unix]
