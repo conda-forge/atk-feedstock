@@ -28,15 +28,14 @@ outputs:
     requirements:
       build:
         - meson
-        - gobject-introspection 1.*
+        - gobject-introspection
         - ninja
         - python >=3.6
         - pkgconf
         - {{ compiler('c') }}
         - {{ stdlib('c') }}
         - glib  # [build_platform != target_platform]
-        # Required for the conda-forge meson cross-compilation config to work
-        - {{ compiler('cxx') }}
+        - zlib  # [build_platform != target_platform]
       host:
         - glib
         - libintl-devel  # [not linux]
